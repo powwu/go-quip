@@ -1,7 +1,6 @@
 package quip
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/mitchellh/mapstructure"
@@ -24,6 +23,7 @@ type NewDocumentParams struct {
 	Content   string
 	Format    string
 	Title     string
+	Type      string
 	MemberIds []string
 }
 
@@ -75,9 +75,9 @@ func (q *Client) NewDocument(params *NewDocumentParams) *Thread {
 	setRequired(params.Content, "content", &requestParams, "Content is required for /new-document")
 	setOptional(params.Format, "format", &requestParams)
 	setOptional(params.Title, "title", &requestParams)
+	setOptional(params.Type, "type", &requestParams)
 	setOptional(strings.Join(params.MemberIds, ","), "member_ids", &requestParams)
 
-	fmt.Println(requestParams)
 	resp := q.postJson(apiUrlResource("threads/new-document"), requestParams)
 	parsed := parseJsonObject(resp)
 	return hydrateThread(parsed)
