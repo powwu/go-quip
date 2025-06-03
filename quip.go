@@ -2,10 +2,12 @@ package quip
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
@@ -87,7 +89,13 @@ func mapToQueryString(params map[string]string) *strings.Reader {
 }
 
 func apiUrlResource(resource string) string {
-	return BASE_API_URL + "/1/" + resource
+	customEndpoint := os.Getenv("QUIP_ENDPOINT")
+	if customEndpoint != "" {
+		fmt.Println("Using custom endpoint: " + customEndpoint)
+		return customEndpoint + "/1/" + resource
+	} else {
+		return BASE_API_URL + "/1/" + resource
+	}
 }
 
 func required(val interface{}, message string) {

@@ -1,6 +1,8 @@
 package quip
 
-import "github.com/mitchellh/mapstructure"
+import (
+	"github.com/mitchellh/mapstructure"
+)
 
 type Message struct {
 	AuthorId    string `mapstructure:"author_id"`
